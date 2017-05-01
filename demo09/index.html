@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/babel">
+      var Input = React.createClass({
+        getInitialState: function() {
+          return {value: 'Hello!',
+          num: 123,};
+        },
+        handleChange: function(event) {
+          this.setState({value: event.target.value});
+        },
+
+        handleNumChange: function(event) {
+          this.setState({num: event.target.value});
+        },
+        render: function () {
+          var value = this.state.value;
+          var num = this.state.num;
+          return (
+            <div>
+              <input type="text" value={value} onChange={this.handleChange} />
+              <input type="text" value={num} onChange={this.handleNumChange} />
+              <p>{value} {num}</p>
+            </div>
+          );
+        }
+      });
+
+      ReactDOM.render(<Input/>, document.getElementById('example'));
+    </script>
+  </body>
+</html>

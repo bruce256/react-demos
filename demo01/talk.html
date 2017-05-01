@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src = "../build/react.js"></script>
+		<script src = "../build/react-dom.js"></script>
+		<script src = "../build/browser.min.js"></script>
+	</head>
+	<body>
+		<div id = "example"></div>
+		<script type = "text/babel">
+
+
+			var MyContainer = React.createClass({
+				getInitialState: function () {
+					return {
+						list: [ 'item1', 'item2', 'item3' ],
+						curItem: 'item1'
+					}
+				},
+				// 改变curItem的回调函数
+				changeItem: function ( item ) {
+					this.setState({
+						curItem: item
+					});
+				},
+				render: function () {
+					return (
+							<div>
+								The curItem is: {this.state.curItem}
+								<List list = {this.state.list} curItem = {this.state.curItem}/>
+								<SelectionButtons changeItem = {this.changeItem}/>
+							</div>
+					)
+				}
+			});
+
+			var List = React.createClass({
+
+				render: function () {
+					var selectedStyle = {
+						color: 'white',
+						background: 'red'
+					};
+
+					return (
+							<ul>
+
+								{
+									(function () {
+										var self = this;
+										return this.props.list.map(function ( item ) {
+											var itemStyle = (item == self.props.curItem) ? selectedStyle : {};
+											return (
+													<li style = {itemStyle}>I am {item}!</li>
+											)
+										});
+									}.bind(this))()
+
+								}
+
+							</ul>
+					)
+				}
+			});
+
+			var SelectionButtons = React.createClass({
+				onClickItem: function ( item ) {
+					this.props.changeItem(item);
+				},
+				render: function () {
+					return (
+							<div>
+								<button onClick = {this.onClickItem.bind(this, 'item1')}>item1</button>
+								<button onClick = {this.onClickItem.bind(this, 'item2')}>item2</button>
+								<button onClick = {this.onClickItem.bind(this, 'item3')}>item3</button>
+							</div>
+					)
+				}
+			});
+
+
+			ReactDOM.render(
+					<MyContainer />,
+					document.getElementById('example')
+			);
+
+		</script>
+	</body>
+</html>
